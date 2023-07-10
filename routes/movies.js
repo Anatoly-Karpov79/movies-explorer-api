@@ -20,7 +20,7 @@ routerMovies.post('/movies', auth, celebrate({
     image: Joi.string().required().regex(url),
     trailerLink: Joi.string().required().regex(url),
     thumbnail: Joi.string().required().regex(url),
-  //  movieId: Joi.number().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     }),
@@ -28,7 +28,7 @@ routerMovies.post('/movies', auth, celebrate({
 
 routerMovies.get('/movies', auth, getMovies);
 
-routerMovies.delete('/movies/_id', auth, celebrate({
+routerMovies.delete('/movies/:movieId', auth, celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().required().hex().length(24),
   }),

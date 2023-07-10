@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
-
+const apilimiter = require('./middlewares/rateLimit');
 const cors = require('./middlewares/cors');
 const routerMovies = require('./routes/movies');
 const routerUsers = require('./routes/users');
@@ -25,6 +25,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
 
 
 app.use(requestLogger);
+app.use(apilimiter);
 app.use(routerUsers);
 app.use(routerMovies);
 

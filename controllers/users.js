@@ -12,13 +12,13 @@ const {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name, about, avatar, email, password,
+    name, email, password,
   } = req.body;
 
   bcrypt.hash(password, 10)
     .then((hash) => User.create(
       {
-        name, about, avatar, email, password: hash,
+        name, email, password: hash,
       },
     ))
     .then((user) => {
@@ -70,10 +70,10 @@ module.exports.getUserById = (req, res, next) => {
 
 module.exports.updateUser = (req, res, next) => {
   const userId = req.user._id;
-  const { name, about } = req.body;
+  const { name, email } = req.body;
   User.findByIdAndUpdate(
     userId,
-    { name, about },
+    { name, email },
     {
       new: true, // обработчик then получит на вход обновлённую запись
       runValidators: true,
@@ -90,36 +90,19 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 
-module.exports.updateUserAvatar = (req, res, next) => {
-  const userId = req.user._id;
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(
-    userId,
-    { avatar },
-    {
-      new: true, // обработчик then получит на вход обновлённую запись
-      runValidators: true,
-    },
-  )
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-        return;
-      }
-      next(err);
-    });
-};
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' });
-      res.status(STATUS_OK).cookie('authorization', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).send({ message: 'Успешная авторизация' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.status(STATUS_OK).cookie('authorization', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true,
+       }).send(user.toJSON());
     })
     .catch(next);
 };
@@ -130,4 +113,11 @@ module.exports.getUserInfo = (req, res, next) => {
   User.find({ _id })
     .then((user) => res.status(STATUS_OK).send({ data: user[0] }))
     .catch(next);
+};
+
+module.exports.logout = async (req, res, next) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
+  console.log("выход")
+  res.status(STATUS_OK)
 };

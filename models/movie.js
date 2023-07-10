@@ -63,6 +63,10 @@ const movieSchema = new mongoose.Schema({
  //   required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     ref: 'user',
   },
+  movieId: {
+    type: Number,
+    required: true,
+  },
 }, {
   versionKey: false, // You should be aware of the outcome after set to false
 });

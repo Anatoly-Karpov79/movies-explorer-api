@@ -9,9 +9,8 @@ const userSchema = new mongoose.Schema({
     required: false, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     minlength: 2, // минимальная длина имени — 2 символа
     maxlength: 30, // а максимальная — 30 символов
-    default: 'Жак-Ив Кусто',
   },
-  
+
   email: {
     type: String,
     unique: true,

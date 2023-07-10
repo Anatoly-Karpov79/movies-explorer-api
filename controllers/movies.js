@@ -7,11 +7,12 @@ const ForbiddenError = require('../errors/forbiddenerror');
 const {
   STATUS_OK,
 } = require('../utils/constants');
+const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
-    .then((movie) => {
-      res.send(movie);
+    .then((movies) => {
+      res.send(movies);
     })
     .catch(next);
 };
@@ -21,7 +22,9 @@ module.exports.createMovie = (req, res, next) => {
   const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId } = req.body;
 
   Movie.create({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner })
-    .then((movies) => res.status(STATUS_OK).send(movies))
+
+  .then((movies) => res.status(201).send(movies))
+
     // если данные не записались, вернём ошибку
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -33,7 +36,8 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovieById = (req, res, next) => {
-  const { cardId } = req.params;
+  const { movieId } = req.params;
+
 
   Movie.findById(movieId)
     .orFail(() => {
