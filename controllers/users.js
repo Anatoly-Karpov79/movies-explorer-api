@@ -10,6 +10,8 @@ const {
   STATUS_OK,
 } = require('../utils/constants');
 
+const { NODE_ENV, JWT_SECRET } = process.env;
+
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -97,12 +99,12 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      res.status(STATUS_OK).cookie('authorization', token, {
+      res.status(STATUS_OK).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: 'None',
         secure: true,
-       }).send(user.toJSON());
+       }).send({ token });
     })
     .catch(next);
 };

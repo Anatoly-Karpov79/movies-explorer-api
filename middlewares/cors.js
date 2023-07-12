@@ -1,4 +1,6 @@
 const allowedCors = [
+  'http://karp.movies-explorer.nomoredomains.work',
+  'https://karp.movies-explorer.nomoredomains.work',
   'http://localhost:3000',
   'https://localhost:3000',
 ];
