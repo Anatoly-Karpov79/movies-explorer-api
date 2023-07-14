@@ -11,6 +11,7 @@ const routerMovies = require('./routes/movies');
 const routerUsers = require('./routes/users');
 const NotFoundError = require('./errors/notfounderror');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const error = require('./errors/error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -35,19 +36,6 @@ app.use('/*', (req, res, next) => {
 app.use(errorLogger);
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      // проверяем статус и выставляем сообщение в зависимости от него
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+app.use(error);
 
 app.listen(PORT);

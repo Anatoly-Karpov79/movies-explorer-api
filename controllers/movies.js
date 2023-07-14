@@ -65,7 +65,7 @@ module.exports.deleteMovieById = (req, res, next) => {
 
   Movie.findById(movieId)
     .orFail(() => {
-      next(new NotFoundError('Карточка не найдена.'));
+      next(new NotFoundError('Фильм не найден.'));
     })
 
     .then((movie) => {
