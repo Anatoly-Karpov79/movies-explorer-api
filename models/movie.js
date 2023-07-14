@@ -36,8 +36,8 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-  required: true,
-      validate: {
+    required: true,
+    validate: {
       validator: (v) => isURL(v),
       message: 'Неправильный формат ссылки',
     },
@@ -60,7 +60,7 @@ const movieSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId, // тип — String
- //   required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
+    //   required: true, // оно должно быть у каждого пользователя, так что имя — обязательное поле
     ref: 'user',
   },
   movieId: {

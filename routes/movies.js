@@ -23,7 +23,7 @@ routerMovies.post('/movies', auth, celebrate({
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    }),
+  }),
 }), createMovie);
 
 routerMovies.get('/movies', auth, getMovies);
@@ -33,7 +33,5 @@ routerMovies.delete('/movies/:movieId', auth, celebrate({
     movieId: Joi.string().required().hex().length(24),
   }),
 }), deleteMovieById);
-
-
 
 module.exports = routerMovies;

@@ -92,7 +92,6 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 
-
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -102,9 +101,9 @@ module.exports.login = (req, res, next) => {
       res.status(STATUS_OK).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-    //    sameSite: 'None',
-    //    secure: true,
-       }).send(user.toJSON());
+      //    sameSite: 'None',
+      //    secure: true,
+      }).send(user.toJSON());
     })
     .catch(next);
 };
@@ -117,9 +116,8 @@ module.exports.getUserInfo = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.logout = async (req, res, next) => {
-  res.clearCookie("jwt");
-  res.redirect("/");
-  console.log("выход")
-  res.status(STATUS_OK)
+module.exports.logout = async (req, res) => {
+  res.clearCookie(jwt);
+  res.redirect('/');
+  res.status(STATUS_OK);
 };

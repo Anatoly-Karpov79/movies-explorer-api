@@ -36,7 +36,9 @@ routerUsers.post('/signin', celebrate({
   }),
 }), login);
 
-routerUsers.delete('/signout',
- logout);
+routerUsers.delete(
+  '/signout',
+  logout(),
+);
 
 module.exports = routerUsers;

@@ -4,10 +4,7 @@ const BadRequestError = require('../errors/badrequesterror');
 const NotFoundError = require('../errors/notfounderror');
 const ForbiddenError = require('../errors/forbiddenerror');
 
-const {
-  STATUS_OK,
-} = require('../utils/constants');
-const { ConnectionClosedEvent } = require('mongodb');
+//  const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({})
@@ -19,11 +16,36 @@ module.exports.getMovies = (req, res, next) => {
 
 module.exports.createMovie = (req, res, next) => {
   const owner = req.user._id;
-  const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  } = req.body;
 
-  Movie.create({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner })
+  Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner,
+  })
 
-  .then((movies) => res.status(201).send(movies))
+    .then((movies) => res.status(201).send(movies))
 
     // если данные не записались, вернём ошибку
     .catch((err) => {
@@ -37,7 +59,6 @@ module.exports.createMovie = (req, res, next) => {
 
 module.exports.deleteMovieById = (req, res, next) => {
   const { movieId } = req.params;
-
 
   Movie.findById(movieId)
     .orFail(() => {
