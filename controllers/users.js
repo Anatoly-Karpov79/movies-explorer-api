@@ -115,9 +115,3 @@ module.exports.getUserInfo = (req, res, next) => {
     .then((user) => res.status(STATUS_OK).send({ data: user[0] }))
     .catch(next);
 };
-
-module.exports.logout = async (req, res) => {
-  res.clearCookie(jwt);
-  res.redirect('/');
-  res.status(STATUS_OK);
-};

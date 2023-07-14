@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+
 const Movie = require('../models/movie');
 const BadRequestError = require('../errors/badrequesterror');
 const NotFoundError = require('../errors/notfounderror');
@@ -7,7 +8,9 @@ const ForbiddenError = require('../errors/forbiddenerror');
 //  const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+
+  Movie.find({ owner })
     .then((movies) => {
       res.send(movies);
     })

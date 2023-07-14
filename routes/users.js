@@ -7,7 +7,6 @@ const {
   updateUser,
   getUserInfo,
   login,
-  logout,
 } = require('../controllers/users');
 
 routerUsers.get('/users/me', auth, getUserInfo);
@@ -35,10 +34,5 @@ routerUsers.post('/signin', celebrate({
     password: Joi.string().required().pattern(/^[a-zA-Z0-9]{3,30}$/),
   }),
 }), login);
-
-routerUsers.delete(
-  '/signout',
-  logout(),
-);
 
 module.exports = routerUsers;
