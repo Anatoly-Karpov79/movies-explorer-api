@@ -81,7 +81,12 @@ module.exports.updateUser = (req, res, next) => {
       runValidators: true,
     },
   )
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (!user) {
+        next(new NotFoundError('Пользователь не найден'));
+      }
+      return res.send({ data: user });
+    })
     // если данные не записались, вернём ошибку
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -101,8 +106,8 @@ module.exports.login = (req, res, next) => {
       res.status(STATUS_OK).cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
-      //    sameSite: 'None',
-      //    secure: true,
+        //    sameSite: 'None',
+        //    secure: true,
       }).send(user.toJSON());
     })
     .catch(next);

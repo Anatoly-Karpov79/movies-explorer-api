@@ -8,11 +8,9 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimiter = require('./middlewares/rateLimit');
 const cors = require('./middlewares/cors');
-const routerMovies = require('./routes/movies');
-const routerUsers = require('./routes/users');
-const NotFoundError = require('./errors/notfounderror');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const error = require('./errors/error');
+const router = require('./routes/index');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -21,6 +19,7 @@ app.use(bodyParser.json());
 app.use(helmet());
 app.use(cookieParser());
 app.use(cors);
+app.use(router);
 
 mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
   useNewUrlParser: true,
@@ -28,12 +27,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
 
 app.use(requestLogger);
 app.use(rateLimiter);
-app.use(routerUsers);
-app.use(routerMovies);
-
-app.use('/*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена.'));
-});
 
 app.use(errorLogger);
 app.use(errors());
