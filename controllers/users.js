@@ -46,7 +46,7 @@ module.exports.createUser = (req, res, next) => {
 module.exports.getAllUsers = (req, res, next) => {
   User.find({})
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -59,7 +59,7 @@ module.exports.getUserById = (req, res, next) => {
         next(new NotFoundError('Неверный Id'));
         return;
       }
-      res.status(STATUS_OK).send({ data: user });
+      res.status(STATUS_OK).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -85,7 +85,7 @@ module.exports.updateUser = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       }
-      return res.send({ user });
+      return res.send(user);
     })
     // если данные не записались, вернём ошибку
     .catch((err) => {
@@ -117,6 +117,6 @@ module.exports.getUserInfo = (req, res, next) => {
   const { _id } = req.user;
 
   User.find({ _id })
-    .then((user) => res.status(STATUS_OK).send({ user }))
+    .then((user) => res.status(STATUS_OK).send(user))
     .catch(next);
 };
