@@ -85,7 +85,7 @@ module.exports.updateUser = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Пользователь не найден'));
       }
-      return res.send({ data: user });
+      return res.send({ user });
     })
     // если данные не записались, вернём ошибку
     .catch((err) => {
@@ -117,6 +117,6 @@ module.exports.getUserInfo = (req, res, next) => {
   const { _id } = req.user;
 
   User.find({ _id })
-    .then((user) => res.status(STATUS_OK).send({ data: user[0] }))
+    .then((user) => res.status(STATUS_OK).send({ user }))
     .catch(next);
 };
