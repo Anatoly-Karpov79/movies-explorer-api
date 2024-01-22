@@ -17,10 +17,8 @@ module.exports.getSubCategories = (req, res, next) => {
 
 module.exports.createSubCategory = (req, res, next) => {
   const category = req.params.id;
-  console.log(category);
   const owner = req.user._id;
   const { name } = req.body;
-  console.log(name, owner, category);
   SubCategory.create({
     name,
     category,
