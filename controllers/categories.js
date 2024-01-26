@@ -31,30 +31,20 @@ module.exports.createCategory = (req, res, next) => {
     });
 };
 
-// module.exports.updateCategory = (req, res, next) => {
-//   const categoryId = req.params.id;
-//   const { name } = req.body;
-//   Category.findByIdAndUpdate(
-//     categoryId,
-//     {
-//       subcategories:
-//     { name },
-//     },
-//     {
-//       new: true,
-//       upsert: true,
-//     },
-
-//   )
-//     .then((categories) => res.status(201).send(categories))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError('Переданы некорректные данные.'));
-//         return;
-//       }
-//       next(err);
-//     });
-// };
+module.exports.getCategoryById = (req, res, next) => {
+  const categoryId = req.params.id;
+  Category.findById(
+    categoryId,
+     )
+    .then((category) => res.status(201).send(category))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные.'));
+        return;
+      }
+      next(err);
+    });
+};
 
 
 // module.exports.createSubCategory = (req, res, next) => {

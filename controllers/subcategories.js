@@ -6,9 +6,13 @@ const BadRequestError = require('../errors/badrequesterror');
 // const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getSubCategories = (req, res, next) => {
-  //   // const owner = req.user._id;
+   const categoryId = req.params.id;
 
-  SubCategory.find()
+  SubCategory.find ({
+    "category" : categoryId
+  })
+ // .strictPopulate(categoryId)
+
     .then((subCategories) => {
       res.send(subCategories);
     })
