@@ -7,9 +7,10 @@ const BadRequestError = require('../errors/badrequesterror');
 
 module.exports.getSubCategories = (req, res, next) => {
    const categoryId = req.params.id;
-
+   const owner = req.user._id;
   SubCategory.find ({
-    "category" : categoryId
+    "category" : categoryId,
+    "owner" : owner
   })
  // .strictPopulate(categoryId)
 

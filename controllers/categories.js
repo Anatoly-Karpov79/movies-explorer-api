@@ -8,9 +8,11 @@ const BadRequestError = require('../errors/badrequesterror');
 //  const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getCategories = (req, res, next) => {
-  // const owner = req.user._id;
+   const owner = req.user._id;
 
-  Category.find()
+  Category.find({
+    "owner" : owner
+  })
     .then((categories) => {
       res.send(categories);
     })
@@ -33,8 +35,10 @@ module.exports.createCategory = (req, res, next) => {
 
 module.exports.getCategoryById = (req, res, next) => {
   const categoryId = req.params.id;
+  
   Category.findById(
     categoryId,
+
      )
     .then((category) => res.status(201).send(category))
     .catch((err) => {
