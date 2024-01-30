@@ -8,9 +8,15 @@ const {
   // deleteMovieById,
 } = require('../controllers/subcategories');
 
-routerSubCategories.post('/categories/:id', auth, createSubCategory);
+const {
+  getProducts,
+  createProduct,
+  // deleteMovieById,
+} = require('../controllers/product');
 
-routerSubCategories.get('/categories/:id', auth, getSubCategories);
+ routerSubCategories.post('/categories/:id', auth, createSubCategory);
+
+ routerSubCategories.get('/categories/:id', auth,  getSubCategories );
 
 // routerMovies.delete('/movies/:movieId', auth, celebrate({
 //   params: Joi.object().keys({
