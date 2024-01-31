@@ -6,10 +6,11 @@ const BadRequestError = require('../errors/badrequesterror');
 // const { ConnectionClosedEvent } = require('mongodb');
 
 module.exports.getProducts = (req, res, next) => {
-  const categoryId = req.params.id;
+  const subcategoryId = req.params.id;
   const owner = req.user._id;
+  console.log(subcategoryId)
   Product.find({
-    "category": categoryId,
+    "subcategory": subcategoryId,
     "owner": owner
   })
     // .strictPopulate(categoryId)
