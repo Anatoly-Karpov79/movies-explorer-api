@@ -8,7 +8,6 @@ const BadRequestError = require('../errors/badrequesterror');
 module.exports.getProducts = (req, res, next) => {
   const subcategoryId = req.params.id;
   const owner = req.user._id;
-  console.log(subcategoryId)
   Product.find({
     "subcategory": subcategoryId,
     "owner": owner
